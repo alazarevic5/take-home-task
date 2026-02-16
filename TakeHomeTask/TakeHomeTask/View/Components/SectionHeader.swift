@@ -29,7 +29,7 @@ struct SectionHeader: View {
     private var rectangle: some View {
         Rectangle()
             .fill(accentColor)
-            .frame(width: 4, height: 16)
+            .frame(width: 2, height: 16)
     }
     
     private var sectionTitle: some View {

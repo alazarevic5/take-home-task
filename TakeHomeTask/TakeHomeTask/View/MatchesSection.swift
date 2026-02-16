@@ -13,7 +13,7 @@ struct MatchesSection: View {
     let getCompetition: (Int) -> Competition?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 16) {
             SectionHeader(title: title)
 
             if matches.isEmpty {

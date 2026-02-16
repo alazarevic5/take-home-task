@@ -14,12 +14,25 @@ struct SportTab: View {
     let onTap: () -> Void
     
     var body: some View {
-        HStack (spacing: 8) {
+        Button(action: onTap) {
+            content
+        }
+        .buttonStyle(.plain)
+        .animation(.easeInOut(duration: 0.2), value: isSelected)
+    }
+    
+    private var content: some View {
+        HStack(spacing: 8) {
             icon
             label
         }
-        .padding(12)
+        .padding(.horizontal, horizontalPadding)
+        .padding(.vertical, 8)
         .background(background)
+    }
+    
+    private var horizontalPadding: CGFloat {
+        isSelected ? 16 : 12
     }
     
     private var foregroundColor: Color {
@@ -30,21 +43,12 @@ struct SportTab: View {
         isSelected ? .primaryYellowColor : .secondaryGrayColor
     }
     
-    @ViewBuilder
     private var icon: some View {
-        Group {
-            if let url = iconUrl, let imageUrl = URL(string: url) {
-                AsyncImage(url: imageUrl) { image in
-                    image.resizable().aspectRatio(contentMode: .fit)
-                } placeholder: {
-                    Image(systemName: "sportscourt")
-                }
-            } else {
-                Image(systemName: "sportscourt")
-            }
-        }
-        .frame(width:20, height: 20)
-        .foregroundColor(foregroundColor)
+        SVGImageView(
+            urlString: iconUrl,
+            size: CGSize(width: 20, height: 20),
+            tintColor: foregroundColor
+        )
     }
     
     @ViewBuilder

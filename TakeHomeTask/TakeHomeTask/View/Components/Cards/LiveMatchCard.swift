@@ -22,7 +22,7 @@ struct LiveMatchCard: View {
         VStack (spacing: 16) {
             header
             content
-        }.padding(16)
+        }.padding(18)
             .background(Color.liveCardBackground)
             .cornerRadius(10)
             .overlay(
