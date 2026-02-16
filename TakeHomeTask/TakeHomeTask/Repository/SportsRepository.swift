@@ -5,19 +5,57 @@
 //  Created by Aleksandra Lazarevic on 15.2.26..
 //
 
-class SportsRepository {
-    func fetchSports() async throws -> [Sport] {
-        let client = APIClient()
-        return try await client.fetchData(from: "/sports", type: [Sport].self)
+import Foundation
+import CoreData
+import Combine
+
+class SportsRepository: ObservableObject {
+
+    internal let apiClient = APIClient()
+    internal let persistenceController: PersistenceController
+
+    @Published var sports: [Sport] = []
+    @Published var competitions: [Competition] = []
+    @Published var matches: [Match] = []
+
+    @Published var isLoadingSports = false
+    @Published var isLoadingCompetitions = false
+    @Published var isLoadingMatches = false
+
+    @Published var sportsError: NetworkError?
+    @Published var competitionsError: NetworkError?
+    @Published var matchesError: NetworkError?
+
+    init(persistenceController: PersistenceController = .shared) {
+        self.persistenceController = persistenceController
     }
 
-    func fetchCompetitions() async throws -> [Competition] {
-        let client = APIClient()
-        return try await client.fetchData(from: "/competitions", type: [Competition].self)
+    func loadAllData() {
+        loadCachedData()
+        Task {
+            await withTaskGroup(of: Void.self) { group in
+                group.addTask { await self.fetchAndCacheSports() }
+                group.addTask { await self.fetchAndCacheCompetitions() }
+                group.addTask { await self.fetchAndCacheMatches() }
+            }
+        }
     }
 
-    func fetchMatches() async throws -> [Match] {
-        let client = APIClient()
-        return try await client.fetchData(from: "/matches", type: [Match].self)
+    private func loadCachedData() {
+        DispatchQueue.main.async {
+            self.sports = self.getCachedSports()
+            self.competitions = self.getCachedCompetitions()
+            self.matches = self.getCachedMatches()
+        }
+    }
+
+    func refreshAllData() {
+        Task {
+            await withTaskGroup(of: Void.self) { group in
+                group.addTask { await self.fetchAndCacheSports() }
+                group.addTask { await self.fetchAndCacheCompetitions() }
+                group.addTask { await self.fetchAndCacheMatches() }
+            }
+        }
     }
 }

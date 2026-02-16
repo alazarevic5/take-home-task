@@ -14,4 +14,5 @@ public enum NetworkError: Error, LocalizedError {
     case networkError(Error)
     case serverError(Int)
     case invalidResponse
+    case unknown(Error)
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class APIClient {
+public class APIClient {
     private let baseURL = "https://take-home-api-7m87.onrender.com/api"
 
     func fetchData<T: Codable>(from path: String, type: T.Type) async throws -> T {

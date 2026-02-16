@@ -9,19 +9,31 @@ import SwiftUI
 
 struct MainSportsView: View {
     
-    var body: some View {
-        VStack {
-            Text("Proba")
-        }.onAppear {
-            Task {
-                let repo = SportsRepository()
-
-                print("Sports:", try await repo.fetchSports())
-                print("Competitions:", try await repo.fetchCompetitions())
-                print("Matches:", try await repo.fetchMatches())
-            }
-        }
-
-    }
+    @StateObject private var viewModel = SportsViewModel()
+    @State private var selectedTab = 0
+    @State private var selectedSportId: Int? = nil
     
+    var body: some View {
+        ZStack {
+            Color.bgPrimary
+            VStack (spacing: 16) {
+                
+                SportsTabView(sports: viewModel.availableSports, selectedId: viewModel.selectedSportId, onSelect: { viewModel.selectSport(withId: $0)})
+                    .padding(.trailing, 0)
+            
+                VStack (spacing: 16) {
+                    SectionHeader(title: "Mečevi uživo")
+
+                }.padding(16)
+                
+                
+                Spacer()
+                
+            }.padding(.vertical, 16)
+        }
+        .onAppear {
+            
+        }
+        
+    }
 }

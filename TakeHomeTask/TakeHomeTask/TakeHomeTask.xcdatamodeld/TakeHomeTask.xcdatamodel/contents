@@ -1,9 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
-        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23605" systemVersion="24B91" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CompetitionEntity" representedClassName="CompetitionEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="competitionIconUrl" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="lastUpdated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="sportId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="matches" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MatchEntity" inverseName="competition" inverseEntity="MatchEntity"/>
+        <relationship name="sport" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SportEntity" inverseName="competitions" inverseEntity="SportEntity"/>
     </entity>
-    <elements>
-        <element name="Item" positionX="-63" positionY="-18" width="128" height="44"/>
-    </elements>
+    <entity name="MatchEntity" representedClassName="MatchEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="awayScore" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="awayTeam" optional="YES" attributeType="String"/>
+        <attribute name="awayTeamAvatar" optional="YES" attributeType="String"/>
+        <attribute name="competitionId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="currentTime" optional="YES" attributeType="String"/>
+        <attribute name="date" optional="YES" attributeType="String"/>
+        <attribute name="homeScore" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="homeTeam" optional="YES" attributeType="String"/>
+        <attribute name="homeTeamAvatar" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="lastUpdated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="sportId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="status" optional="YES" attributeType="String"/>
+        <relationship name="competition" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CompetitionEntity" inverseName="matches" inverseEntity="CompetitionEntity"/>
+        <relationship name="sport" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SportEntity" inverseName="matches" inverseEntity="SportEntity"/>
+    </entity>
+    <entity name="SportEntity" representedClassName="SportEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="lastUpdated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="sportIconUrl" optional="YES" attributeType="String"/>
+        <relationship name="competitions" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CompetitionEntity" inverseName="sport" inverseEntity="CompetitionEntity"/>
+        <relationship name="matches" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="MatchEntity" inverseName="sport" inverseEntity="MatchEntity"/>
+    </entity>
 </model>
