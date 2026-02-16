@@ -14,26 +14,39 @@ struct MainSportsView: View {
     @State private var selectedSportId: Int? = nil
     
     var body: some View {
-        ZStack {
-            Color.bgPrimary
-            VStack (spacing: 16) {
-                
-                SportsTabView(sports: viewModel.availableSports, selectedId: viewModel.selectedSportId, onSelect: { viewModel.selectSport(withId: $0)})
-                    .padding(.trailing, 0)
-            
-                VStack (spacing: 16) {
-                    SectionHeader(title: "Mečevi uživo")
+          ZStack {
+              Color(.bgPrimary).ignoresSafeArea()
 
-                }.padding(16)
-                
-                
-                Spacer()
-                
-            }.padding(.vertical, 16)
-        }
-        .onAppear {
-            
-        }
-        
-    }
-}
+              VStack(spacing: 0) {
+                  ScrollView {
+                      VStack(spacing: 20) {
+                          // live mecevi
+                          let liveMatches = viewModel.getLiveMatches()
+                          if !liveMatches.isEmpty {
+                              MatchesSection(
+                                  title: "MEČEVI UŽIVO",
+                                  matches: liveMatches,
+                                  getCompetition: { viewModel.getCompetition(for: $0) }
+                              )
+                          }
+                          
+                          if viewModel.isLoading && !viewModel.hasOfflineData {
+                              ProgressView()
+                                  .tint(Color("primaryYellow"))
+                                  .padding(40)
+                          }
+                      }
+                      .padding(.horizontal, 16)
+                      .padding(.bottom, 20)
+                  }
+              }
+          }
+          .refreshable {
+              viewModel.refreshData()
+          }
+      }
+  }
+
+  #Preview {
+      MainSportsView()
+  }
