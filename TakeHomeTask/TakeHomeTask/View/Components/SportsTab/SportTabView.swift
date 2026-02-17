@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// view with sports card list
 struct SportsTabsView: View {
     let sports: [Sport]
     let selectedId: Int?

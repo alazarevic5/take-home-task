@@ -1,5 +1,5 @@
 //
-//  MatchesSection.swift
+//  LiveMatchesSection.swift
 //  TakeHomeTask
 //
 //  Created by Aleksandra Lazarevic on 16.2.26..
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MatchesSection: View {
+struct LiveMatchesSection: View {
     let title: String
     let matches: [Match]
     let getCompetition: (Int) -> Competition?

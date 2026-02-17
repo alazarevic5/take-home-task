@@ -32,13 +32,22 @@ class SportsRepository: ObservableObject {
 
     func loadAllData() {
         loadCachedData()
-        Task {
-            await withTaskGroup(of: Void.self) { group in
-                group.addTask { await self.fetchAndCacheSports() }
-                group.addTask { await self.fetchAndCacheCompetitions() }
-                group.addTask { await self.fetchAndCacheMatches() }
+
+        if sports.isEmpty || shouldRefreshData() {
+            Task {
+                await withTaskGroup(of: Void.self) { group in
+                    group.addTask { await self.fetchAndCacheSports() }
+                    group.addTask { await self.fetchAndCacheCompetitions() }
+                    group.addTask { await self.fetchAndCacheMatches() }
+                }
             }
         }
+    }
+
+    private func shouldRefreshData() -> Bool {
+        // Refresh data every 5 minutes
+        let lastRefresh = UserDefaults.standard.object(forKey: "lastDataRefresh") as? Date ?? Date.distantPast
+        return Date().timeIntervalSince(lastRefresh) > 60
     }
 
     private func loadCachedData() {
@@ -50,6 +59,7 @@ class SportsRepository: ObservableObject {
     }
 
     func refreshAllData() {
+        loadCachedData()
         Task {
             await withTaskGroup(of: Void.self) { group in
                 group.addTask { await self.fetchAndCacheSports() }

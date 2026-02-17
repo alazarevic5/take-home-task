@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct SportTab: View {
     let name: String
@@ -44,11 +45,15 @@ struct SportTab: View {
     }
     
     private var icon: some View {
-        SVGImageView(
-            urlString: iconUrl,
-            size: CGSize(width: 20, height: 20),
-            tintColor: foregroundColor
-        )
+        Group {
+            if let iconUrl = iconUrl {
+                WebImage(url: URL(string: iconUrl)) { image in
+                    image.image?.resizable()
+                }
+                .scaledToFit()
+                .frame(width: 20, height: 20, alignment: .center)
+            }
+        }
     }
     
     @ViewBuilder

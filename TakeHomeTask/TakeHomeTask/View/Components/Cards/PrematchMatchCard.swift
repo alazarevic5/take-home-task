@@ -47,13 +47,18 @@ struct PrematchMatchCard: View {
     
     private func teamView(name: String?, avatarUrl: String?) -> some View {
         VStack(spacing: 8) {
-            SVGImageView(
-                urlString: avatarUrl,
-                size: CGSize(width: 56, height: 56),
-                tintColor: nil
-            )
-            .background(Color.gray.opacity(0.1))
-            .clipShape(Circle())
+
+            if let urlString = avatarUrl {
+                SVGImageView(
+                    urlString: urlString,
+                    size: CGSize(width: 56, height: 56),
+                    tintColor: nil
+                )
+                .frame(width: 56, height: 56)
+                .background(Color.gray.opacity(0.1))
+                .clipShape(Circle())
+            }
+                
             
         Text(name ?? "")
                 .font(.system(size: 12, weight: .medium))
@@ -66,11 +71,13 @@ struct PrematchMatchCard: View {
         
     private var centerInfo: some View {
         VStack(spacing: 6) {
-            SVGImageView(
-                urlString: competition?.competitionIconUrl,
-                size: CGSize(width: 24, height: 24),
-                tintColor: nil
-            )
+            if let urlString = competition?.competitionIconUrl {
+                SVGImageView(
+                    urlString: urlString,
+                    size: CGSize(width: 24, height: 24),
+                    tintColor: nil
+                ) .frame(width: 24, height: 24)
+            }
             
             Text(competition?.name ?? "")
                 .font(.system(size: 11))

@@ -23,6 +23,7 @@ extension SportsRepository {
             await MainActor.run {
                 self.competitions = networkCompetitions
                 self.isLoadingCompetitions = false
+                UserDefaults.standard.set(Date(), forKey: "lastDataRefresh")
             }
         } catch let error as NetworkError {
             await MainActor.run {
@@ -61,6 +62,8 @@ extension SportsRepository {
     internal func getCachedCompetitions() -> [Competition] {
         let context = persistenceController.container.viewContext
         let request = CompetitionEntity.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(keyPath:
+          \CompetitionEntity.id, ascending: true)]
 
         do {
             let entities = try context.fetch(request)

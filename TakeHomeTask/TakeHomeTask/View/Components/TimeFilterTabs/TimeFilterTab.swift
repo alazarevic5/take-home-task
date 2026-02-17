@@ -12,7 +12,7 @@ struct TimeFilterTab: View {
     let isSelected: Bool
     let onTap: () -> Void
 
-    private let tabWidth: CGFloat = 120
+    private let tabWidth: CGFloat = 100
 
     private var foregroundColor: Color {
         isSelected ? .contentOnFillPrimary : .contentOnFillTertiary
@@ -35,7 +35,8 @@ struct TimeFilterTab: View {
         Text(title)
             .font(.system(size: 14, weight: .medium))
             .foregroundColor(foregroundColor)
-            .padding(16)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 12)
             .background(background)
     }
 

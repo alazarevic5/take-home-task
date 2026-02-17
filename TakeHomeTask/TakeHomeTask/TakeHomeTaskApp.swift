@@ -6,10 +6,16 @@
 //
 
 import SwiftUI
+import SDWebImage
+import SDWebImageSVGCoder
 
 @main
 struct TakeHomeTaskApp: App {
     let persistenceController = PersistenceController.shared
+    
+    init() {
+        SDImageCodersManager.shared.addCoder(SDImageSVGCoder.shared)
+    }
 
     var body: some Scene {
         WindowGroup {
