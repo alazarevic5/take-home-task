@@ -8,7 +8,7 @@
 import SwiftUI
 
 public extension Color {
-    static let defaultBackground = Color("bgPrimary")
+    static let defaultBackground = Color("bgprimary")
     static let cardBorderColor = Color("cardBorder")
     static let contentGrayColor = Color("contentGray")
     static let contentOnFillPrimaryColor = Color("contentOnFillPrimary")

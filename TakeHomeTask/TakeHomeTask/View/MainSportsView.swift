@@ -13,7 +13,7 @@ struct MainSportsView: View {
 
     var body: some View {
         ZStack {
-            Color(.bgPrimary).ignoresSafeArea()
+            Color.defaultBackground.ignoresSafeArea()
 
             ScrollView {
                 sportsTabs
